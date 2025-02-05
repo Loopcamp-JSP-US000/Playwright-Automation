@@ -24,7 +24,7 @@ test("Simple Google Search Test", async ({ page }) => {
     // you can hover over the 'locator' and see if it returns Promises or not - since it does not, no need to use 'await'
     // page.locator("// textarea[@class='gLFyf']")
     // We can assign it to a variable
-    let searchBox = page.locator("// textarea[@class='gLFyf']")
+    let searchBox = page.locator("//textarea[@class='gLFyf']")
 
     // since locator method does not return Promises, we do not need to use 'await' and it actually give a warning with ... three dots 
     //let searchBox = await page.locator("// textarea[@class='gLFyf']")
