@@ -1,0 +1,238 @@
+Topics:
+    AI for Automation productivity
+    Hooks Functions & Test Groups
+    PDF
+        -from the next class PDF, we will talk about:
+            - Test Groups (page 10)
+            - Hooks (page 11)
+            - rest we will talk about next class 
+
+
+Next Class:
+    Page Object Methods
+    Locator Object Methods 
+
+        - These two inlcudes a lot of automation techniques
+            - Radio Button, Dop downs, Checkbox, iFrame and etc 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap:
+
+    - package.json
+        - Scripts
+    - playwright.config.js 
+        - parallel execution
+        - headless 
+        - crossbrowser testing  
+    - Naming conventions 
+        -lowerCamelCase
+        -UpperCamelCase
+        -kebab-case
+
+    - Debug
+        - debug that we added in Tabnine
+        - we can also use perplexity (perplexity is much more reliable than the Tabnine we added)
+            - Also, it is possible to invite people to share what you created 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Ne Topics: 
+    - AI for Automation productivity
+        - Instead of creating the test like we did las class, we want to create it using the AI 
+
+    - Writing the base code structure with AI 
+        - The following is the code to write teh test () function. 
+            Ex: 
+                import {test} from '@playwright/test';
+
+                test("", async ({ page }) => {
+                        
+                });
+
+        - But instead of doing this every time, we can traint he AI to give this to us. We will create another PROMT in Tabnine and
+        - Open on the right side the Tabnine > Settings > Defince Custom Command > Add 
+            - /empty-test 
+            - Creates an empty playwright test function
+            - You are a playwright automation testing assistant who can help me to generate an empty test function. 
+            Use the test() function from @playwrigth/test package.       
+            Leave the test description as an empty string, I will give it myself. 
+            Do not include anything in the body of the test function.
+            For importing you need to use ES module imports meaning use the import keyword instaed of require function 
+            Your response should only contain the test function in a code snippet and nothing else.
+        - Save
+        - Extra: If you need to you can create you backup workspalce in perplexity 
+
+        - Now I will use the AI yo get the code above with out command 
+            - ON the Tabnine, go ot the chat section
+            - type: /empty-test + ENTER
+            - then observe what AI gave you. 
+            - Hower over that given code, click on "Insert at cursor"
+
+
+    - FInding the elements with AI 
+        - XPath locator 
+            - You can use functionality from Tabnine (But it is available on the paid version)
+            - But we will use the perplexity for that. 
+            - We need to give the HTML to the promt template, so it can give us the locator 
+            - So, lets create the another PROMT in Tabnine first to generate xpath
+                - Open on the right side the Tabnine > Settings > Defince Custom Command > Add 
+                - /xpath-locator
+                - Generates the xpath for the given HTML.
+                - You are a web automation testing expert specializing in XPath generation. 
+                Your task is to generate short and unique relative XPath locator for the given HTML code. 
+                You must use single quotes when you are giving the value of the attributes in the XPath locator.
+                Your response should only contain the short and unique relative XPath locator in code snippet and nothing else. 
+
+            - Now, copy the HTML element (copy element) from the Web Browser 
+                - On the tabnine chat box 
+                - type: /xpath-locator + SHIFT ENTER (to go to the next line)
+                - paste the copied HTML element there 
+                - Now, if it is not unique, you can ask the AI to use indexes to give you the first one. 
+
+                - Extra: in the console you may see some yellow colored warnings - becuase we have put to much waiting time. 
+        
+        - CSS Locator    
+            - It is also possible that instaed of XPath, you may need to use CSS locator 
+                - Now, lets add another PROMT for CSS just replacing all the thign we did for XPath
+                - Open on the right side the Tabnine > Settings > Defince Custom Command > Add 
+                - /css-locator
+                - Generates the css for the given HTML.
+                - You are a web automation testing expert specializing in CSS generation. 
+                Your task is to generate short and unique relative CSS locator for the given HTML code. 
+                You must use single quotes when you are giving the value of the attributes in the CSS locator.
+                Your response should only contain the short and unique CSS locator in code snippet and nothing else. 
+            
+            - Now, copy the HTML element (copy element) from the Web Browser 
+                - On the tabnine chat box 
+                - type: /css-locator + SHIFT ENTER (to go to the next line)
+                - paste the copied HTML element there 
+                - Now, if it is not unique, you can ask the AI to use indexes to give you the first one. 
+                - NOTE: css does not have index 
+
+    - Now, lets create workspaces for these in Perplexity 
+        - Go to you perplexity account
+        - Click on Spaces on the left side
+        - click on "Create a Space"
+            - copy paste all from Tabnine to Perplexisty for XPath locator and CSS locator 
+
+        - Now, just copy the HTML element and past in one of those workspaces + ENTER  
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic
+
+    - We will use the following platform to practice 
+        Praciticing Website: https://loopcamp.vercel.app/  (https://www.loopcamp.io/practice)
+    - Later on, we will use another portal application to practice
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic
+
+    - Test Groups
+        - The test.describe() is used for creating test groups. Meaning creating test which are in the similar category 
+        - Test groups allow us to organize related tests together
+        - It improves readability and maintainability of our test suite
+        - Test Groups can be nested for further organization
+        - Test groups can have their own 'hooks' that apply to all tests within the group
+
+        Ex:
+            test.describe( 'Group name', () = {
+
+                test ('Test 1', async ({fixtureName}) => {
+                    // Testi codes
+                })；
+
+                test( 'Test 2', async ({fixtureName}) => {
+                    // Test2 codes
+                })；
+                
+            }) ;
+
+
+            - Think about like this that, in 1 User Story, you may have multiple Test Cases. 
+                - Now you can group them together. 
+                - "Group name" insice of the describe() function, can be your User Story name 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic
+
+    - Hooks
+        - Allow us to 'setup' and 'teardown' test environments for specific groups of tests.
+        - Helps with organizing and managing test setup and cleanup more efficiently.
+        - Reduces code duplication and improves readability
+        - Enables efficient management of resources for related tests
+        - Types of hooks in test groups are:
+                - beforeEach():     Runs before each test in the test group
+                - afterEach():      Runs 'after each test' in the test group
+                - beforeAll():      Runs once 'before all tests' in the test group
+                - afterAll():       Runs once 'after all tests' in the test group
+
+                - All these are very similiar to JUnit/TestNG - @BeforeAll and etc annotations 
+
+
+
+        - Ex:
+                test.describe( 'User Authentication', () => {
+
+                    test. beforeAll(async ({ browser }) => {
+                        // code that runs one time before all tests
+                    }) ;
+                    
+                    test.afterAll(async () => 1
+                        // code that runs one time after all tests
+                    }) ;
+
+                    test. beforeEach(async ({ page }) = {
+                        // code that runs before each test
+                    }) ;
+                    
+                    test.afterEach(async ({ page }) => {
+                        // code that runs after each test
+                    }) ;
+
+                    test( 'Test 1', async ({ page }) →> {
+                        // Test2 codes
+                    }) ;
+                    
+                    test ('Test 2', async ({ page }) => {
+                        // Test1 codes
+                    }) ;
+                    
+                });
+
+
+
+        - Flow of Test Hooks and Structures
+
+                Execution order:
+                    1. test.beforeAll()
+                    2. For each test:
+                            2.1 test.beforeEach()
+                            2.2 Test Code
+                            2.3 test.afterEach()
+                    3. test.afterAll()
+
+
+                Ex:
+                        test. describe( 'Group', () => {
+                            │
+                            ├── test. beforeAll(() => { ... });
+                            │
+                            ├── test ('Test 1', async ({ page }) => { ... }});
+                            │   │ 
+                            │   ├── test. beforeEach ( () => { ... });
+                            │   │
+                            │   ├── Actual test code
+                            │   │
+                            │   └── test. afterEach(() => { ... });
+                            │
+                            │
+                            ├── test ('Test 2', async ({ page }) => { ... });
+                            │   │ 
+                            │   ├── test. beforeEach ( () => { ... });
+                            │   │
+                            │   ├── Actual test code
+                            │   │
+                            │   └── test. afterEach(() => { ... });
+                            │
+                            └── test. afterAll(() => { ... });
+                        });
+
+

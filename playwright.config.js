@@ -41,7 +41,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-        viewport: { width: 1512, height: 982 }, // you can find your comp display seeting what size it is 
+        viewport: { width: 1400, height: 982 }, // you can find your comp display seeting what size it is 
        },
     },
 /*

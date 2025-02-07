@@ -10,7 +10,7 @@ import { test } from '@playwright/test';
 
 // async ({ page }) --- >{} is used for the fixture to be passed as SET to be unique 
 // page --- > it is like a driver for a web page
-test("Simple Google Search Test", async ({ page }) => {
+test("Simple Google Search test @google01", async ({ page }) => {
     // we do nto need to create Driver drive object like in Selenium, but we will use fixture - "page"
     // now since page has some methods, we can use them like this:
 
@@ -24,7 +24,7 @@ test("Simple Google Search Test", async ({ page }) => {
     // you can hover over the 'locator' and see if it returns Promises or not - since it does not, no need to use 'await'
     // page.locator("// textarea[@class='gLFyf']")
     // We can assign it to a variable
-    let searchBox = page.locator("//textarea[@class='gLFyf']")
+    let searchBox = page.locator("//textarea[@class='gLFyf']");
 
     // since locator method does not return Promises, we do not need to use 'await' and it actually give a warning with ... three dots 
     //let searchBox = await page.locator("// textarea[@class='gLFyf']")
@@ -33,17 +33,17 @@ test("Simple Google Search Test", async ({ page }) => {
     // type is deprecated that is why it is showing strikethrough - it types each char at a time taking longer, that is why it is deprecated - but still works 
     // Again, hover over the type() and see what it returns Promises or not - since it does, need to use 'await'
     // since the automation is so fast, we can slow it down with the wait  
-    await page.waitForTimeout(2000); // 2 sec
+    await page.waitForTimeout(3000); // 2 sec
     //await searchBox.type("Playwright Automation "); 
 
     // or we can use another method to fill the search box which provides all the inputs at once 
     await searchBox.fill("Playwright Automation "); 
-    await page.waitForTimeout(2000); // 2 sec
+    await page.waitForTimeout(3000); // 2 sec
 
 
     // Now, we need to press enter to search
     await searchBox.press("Enter"); // press enter to search
-     await page.waitForTimeout(2000); // 2 sec
+    await page.waitForTimeout(3000); // 2 sec
 
 
 }); 
@@ -54,5 +54,6 @@ test("Simple Google Search Test", async ({ page }) => {
 test ("Simple YouTube Search Test @youtube", async({ page }) => {
 //test ("Simple YouTube Search Test", async({ page }) => {
     await page.goto("https://www.youtube.com"); // navigate to youtube home page 
+
 
 });
