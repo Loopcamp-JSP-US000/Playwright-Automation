@@ -236,3 +236,20 @@ New Topic
                         });
 
 
+        - Since we will be using creating the test group, lets create anothe PROMPT for this. 
+            - Open on the right side the Tabnine > Settings > Defince Custom Command > Add 
+            - /empty-test-groups
+            - Creates a test group with 3 tests.
+            - You are a playwright automation assistant who can help me generate a test group with three empty test functions in it. 
+              Use the test() function from @playwright/test and import test. 
+              Leave the test description of each test as an empty string. 
+              Do not include anything in the bodu of the test functions.
+              For importing you need to use ES Module imports.
+              Your response should only contain the test group in a code snipper and nothihg else. 
+                    
+        - Now, copy the HTML element (copy element) from the Web Browser 
+            - On the tabnine chat box 
+            - type: /empty-test-groups + ENTER 
+            - NOTE: if you reach the daily limit, from the top, pick another provider. 
+
+
