@@ -3,6 +3,7 @@ import { test } from "@playwright/test";
 test.describe("", () => {
   // create beforeEach function
   test.beforeEach(async ({ page }) => {
+    console.log("Opening the browser");
     await page.goto("https://loopcamp.vercel.app/");
     await page.waitForTimeout(2000);
   });

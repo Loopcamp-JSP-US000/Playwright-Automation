@@ -1,0 +1,411 @@
+Playwright Day03
+
+    Topics:
+        - Locator Object Methods
+        - Web Based Authentication
+        - Environment Variables
+        - Handling Array of elements
+        
+
+    Next Class:
+        - Playwright Assertions
+            - May be review it before the next class - Playwright has way more assertions. 
+        - iframes
+        - Alerts
+
+
+    Note: for Practice we will use the followin 
+          CT - Slef Enrollment Platform - qa.sep.tdtm.cydeo.com/taws
+                SEP_USERNAME = automation-user
+                SEP_PASSWORD = 123abc
+          Tes Data for Credit created       
+                docs.stripe.com/testing 
+        
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap
+
+    @playwright/test package
+
+        - Designed specifically for end-to-end testing
+        - Uses a specialized test runner and framework
+        - Comes with its own built-in reporters
+        - Introduces the concept of fixtures
+        - Has its own global configurations
+        - It includes built-in assertions
+
+
+        Ex: Sample Structure Tree
+
+
+                        project-root/
+                            │
+                            ├── test/
+                            │   │
+                            │   └── home.spec.ts
+                            │
+                            │
+                            ├── pages/
+                            │   │
+                            │   └── HomePage.ts
+                            │
+                            │
+                            ├── playwright.config.ts
+                            │
+                            │
+                            └── package.json
+                 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap
+
+    Test Function Declaration 
+        - To create the test scripts for "test cases" we need this built-in "test()" function
+
+        - The test() function is the core building block of Playwright tests
+
+        - It takes two arguments - a string description and an async callback function. You are required to use two arguments
+            - description:                  Describes what the test is checking
+            - async callback function:      Takes fixture(s) and contains the codes of the test
+
+
+        - Each test function runs in isolation, Playwright creates a new browser context for each test
+            - Ex:
+                    import {test} from '@playwright/test';
+
+                    test('test name', async ({ fixtureName }) =>
+                        // Test Codes
+                    }) ;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap
+
+    Fixtures
+        - Playwright uses fixtures to provide reusable, isolated test environments
+        - Simplifies the test setup and teardown process, making the tests more reliable and maintainable
+        - Common 7 fixtures(fuxtureName) includes:
+                - browser   - specifically for UI we will learn this
+                                - Chrome, Safari, Firefox
+                - context   - specifically for UI we will learn this
+                                - like how many instances of the same browser running, specifically different windows not tabs- parallel testing
+                - page      - specifically for UI we will learn this
+                                - this one is referring to the tabs on each window 
+                - viewport
+                - browserName
+                - request
+                - baseURL
+
+
+
+    The "page" fixture
+        - For upcoming couple classes we will mostly use "page" fixture because our each test case will be on a single tab on browser
+
+        - A powerful tool for web automation and testing.
+        - An isolated page instance for each test
+        - Provides a clean, consistent starting point for each test
+        - Automatically created and destroyed 
+            - meaning setup and teardown happens automatically verses how we set it up in Selenium with Hooks.class. "page" fixtures does it automatically
+            - it will follow the global configuration - playwright.config.js --- > like how many browsers it will open, what browser it will open. 
+        - Provides methods for navigation, interaction, and assertions 
+        
+            - Ex:                                 ,- > page is the fixtureName we are using in here.
+                                                 /
+                    test('test name', async ({ page }) =>
+                        // Test Codes
+                    }) ;
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap
+
+
+    Common Methods of page Object
+
+        - Some of the reusable methods coming from "page" fixture
+            - NAME                                  -DESCRIPTION
+            ----------                              -----------------
+            - goto(url);                            Navigate the browser to a specified URL
+            - title();                              Returns the title of the current page as a string
+            - url();                                Returns the current URL of the page as a string
+            - setViewportSize({w, l});              Sets the size of the browser viewport to with width and height values / we already set this in config file
+            - setDefaultTimeout(milliseconds);      Sets the default maximum time (in milliseconds) the test on the page can take before timing out
+            - page.locator(selector);               Creates a locator for the given selector, which can be used to perform actions like click, type 
+                                                        - ONly the 4 locators we can pass in Playwright. See below locators
+                                                        - This will give us Locator Object
+                                                        - Note: there are also getByText, getByTitle - but .locator() does everything so no need others 
+            - page.$('');                           As an alternitive, we can use this method as well. But not preferrable 
+                                                        - This method will give us somethig called ElementHandle
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap / New Topic
+
+
+    Locators
+
+        - Powerful tools for element interaction and assertion.
+        - An object representing a way to find element(s) on the page
+        - Provides a robust and reliable way to interact with page elements
+        - Locator Selectors:
+            - CSS selectors:    page.locator('button.primary')
+            - XPath:            page.locator('//button[contains(text(), "Submit")]')
+            - Text content:     page.locator('text=Submit')
+            - TestID:           page.locator('data-testid=submit-button')
+
+
+
+
+    Common Methods of Locator Object 
+        - once we have the page.locator(''); -- > which returns Locator Object, we can use the following methods from 3 categories below
+
+
+        Methods-Actions     Methods-Retrieval       Methods - State
+        ---------------     -----------------       ---------------
+        click()             textContent()           isVisible()
+        fill()              innerText()             isEnabled()
+        type()              inputValue()            isChecked()
+        press()             getAttribute()          isDisabled()
+        check()
+        uncheck()
+        selectOption()
+
+        Methods-Actions
+                        Note:
+                            - The following two methods are used witht he check boxes 
+                            - It is alot easier in Playwright compare to Seleniuem. 
+                            - For ex: In selenium, if we want to checkmark two check boxes, we need to make sure if it is checked 
+                                      then do tno click because clicking unchecks too. 
+                                - check()
+                                - uncheck()
+
+                                - URL: https://loopcamp.vercel.app/checkboxes.html
+
+                        Note:
+                            - type() method might be deprecated 
+
+
+
+                        Note: 
+                            - selectOption()
+                                - is used for dropdowns
+                                - EX:
+                                        let dropdownBox = page.locator("//select[@id='dropdown']");
+
+                                        // select by value 
+                                        await dropdownBox.selectOption("1");
+
+                                        // select by text 
+                                        await dropdownBox.selectOption({label: "Option 1"});
+
+
+                                        // select by index 
+                                        await dropdownBox.selectOption({index: 1} );
+
+
+
+
+        Methods-Retrieval
+            - these methods are mostly to get the test value of the elements. 
+
+                Note: 
+
+                    textContent()
+                        - this will return all the text content including the invisibale texts. Some elements have it.
+
+
+                    innerText()             
+                        - this will only return the VISIBLE text 
+
+
+                    inputValue() 
+                        - this will return the value that was inserted into input text field 
+
+
+                    getAttribute()
+                        - We have this in Selenium as well if you remember. 
+                        - we use this and specify whihc attribut we need to get 
+
+                        - NOTE: we can use CSSAtribute to validate the colors and etc. 
+
+
+
+
+        Methods - State
+            - all the methods here are returning true/false - > boolean
+            - So, like in selenium which we used assertTrue(); or assertFalse();, we will validate in similar way
+
+            - isVisible()
+                    expect(await header2Element.isVisible()).toBeTruthy(); // not prefferable but still good
+                    await expect(header2Element).toBeVisible();       // prefferable 
+
+            - isEnabled()   
+                    lets say that we want to verify if the button is clickable. 
+                    this can be also used with link to verify if it is clickable 
+
+                    Ex:
+                        expect(await abTestingLink.isEnabled()).toBeTruthy();  // not prefferable but still good 
+                        await expect(abTestingLink).toBeEnabled();   // prefferable 
+
+
+            - isChecked()
+                    Ex:
+                        let checkboxLink = page.locator("text='Checkboxes'");
+                        await checkboxLink.click();
+                        await firstCheckbox.check();
+                        await expect(firstCheckbox).toBeChecked();
+
+                        // it can be done also like this
+                        expect(await firstCheckbox.isChecked()).toBeTruthy();
+
+
+            - isDisabled()
+                    Ex:
+                    expect(await abTestingLink.isDisabled()).toBeTruthy(); 
+
+                    // or like this 
+                    await expect(abTestingLink).toBeDisabled();
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic
+
+    Web Based Authentication - on our practice web page, it does not work !!! 
+
+        - On our practice URL, there is section called "Basic Auth (user and pass: admin)" 
+        - Once you click, it will ask username and password which we need to provide to continue 
+
+        - On some applications you can invade the URL by providing the username and password at the begining of the URL
+            - This way is not secure though
+            Ex: 
+                https://admin:admin@loopcamp.vercel.app/basic-auth.html
+
+                    await page.goto('https://admin:admin@loopcamp.vercel.app/basic-auth.html');
+
+                    // after logging in, lets validate 
+                    let elem = page.locator("//p[contains(text(),'Congratulations!')]");
+                    await expect(elem).toBeVisible();
+
+
+
+        - Lets see how we can do it in secure way. 
+            Ex:
+                let encodedCreds = Buffer.from('admin:admin').toString('base64'); 
+                // .toString(), we return it as a string and 'base64' is the encoding we use among all the other options 
+                console.log(encodedCreds);
+
+
+                // 2. Add the credentials to the HTTP headers - > from API classes if you remember we had "Beaer tokent". You can thoink of it the same way. 
+                await page.setExtraHTTPHeaders({Autherization: `Basic ${encodedCreds}`});
+
+                await page.goto('https://loopcamp.vercel.app/basic-auth.html');
+
+
+                // after logging in, lets validate 
+                let elem = page.locator("//p[contains(text(),'Congratulations!')]");
+                await expect(elem).toBeVisible();
+
+
+
+
+        - Now, if you push this code into GitHub, these credentials will be visible in GitHub as well which is not good practice 
+            - Please, commit and push. Navigate to GitHub and observe. 
+            - So, it is not a good idea to have this in the source code. 
+                - having it as private, still pushing it to GitHub will make it accessible 
+                - having it in properties file will still push it to GitHub
+            - We need to configure it in a way that ONLY in my local computer, it can access it. 
+                - We will have these as n ENVIRONMENTAL VARIABLES 
+                
+                
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic
+
+
+    Environment Variables
+
+        1. you can add .env file in the root source
+            - for this we need to add another library called "dotenv" from the left navigation bar - box icon
+            - add this into your .gitignore file. 
+            - It will not work without that library 
+            - Also, you must add that .env file into your .gitignore. Otherwise will be a problematc
+
+
+        2. Other option is we configure it in the VSC directly.  
+            - On the search box at the top we will search for one json file - This is coming from the extension we installed
+                Type: > user settings 
+                    - this will give you two options. Pick the one that ends with (JSON)
+            - on the opened file
+                - put (,) comma after the existing line and we will add additional propert
+                - Enter this following property:
+                    Code:
+                            "playwright.env": {
+                                "PRACTICE_USERNAME": "admin",
+                                "PRACTICE_PASSWORD": "admin"
+                            }
+
+                - in your test(); function, we can use the following code to read it. 
+                    Code:
+                            console.log(`Username is: ${process.env.PRACTICE_USERNAME}`);
+
+
+            - Q: Since we are setting this file locally, how can we run the CI/CD
+              A: You can set this env file, in Jenkins as well. 
+
+
+
+        3. What if we are nto allowed to have the extensions. 
+            - One the test() fund where we were just reading from the env json file printing, lets add a tag - > @test01
+            - And from 'package.json' file, lets run it (this also means running through terminal)
+            - Observe that, it will be 'undefined', basically not able to read from that file 
+
+            - If we need to set these environment variables for package.json (terminal) as well - which is also what Jenkins is using 
+                - Jekins does not have the access to the extensions of the VSC
+                - Jenkins uses only terminal
+
+            - We need to add the following code after adding comma (,) in the setting.json file after last line:
+                - NOTE: this is Operating System dependent meaning it is different for Mac and Windows and etc
+                - Code:
+                            "terminal.integrated.env.osx": {
+                                "PRACTICE_USERNAME": "admin",
+                                "PRACTICE_PASSWORD": "admin"
+                            }     
+
+            - Now, go back to package.json file and run it again. 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Taks
+    1. SEP (Self Enrollment Process) 
+
+        CT - Slef Enrollment Platform - qa.sep.tdtm.cydeo.com/taws
+                        SEP_USERNAME = automation-user
+                        SEP_PASSWORD = 123abc
+
+
+        Task:
+            1. Automate the login steps of SEP
+            2. Make sure do not reveal any sensitive data
+            3. Make sure from both playwright extension & terminal (package.json) execution works
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
