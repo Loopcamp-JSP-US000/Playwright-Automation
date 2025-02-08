@@ -338,6 +338,7 @@ New Topic
             - on the opened file
                 - put (,) comma after the existing line and we will add additional propert
                 - Enter this following property:
+                    -Note: naming conventions is ALL UPPER CASE
                     Code:
                             "playwright.env": {
                                 "PRACTICE_USERNAME": "admin",
