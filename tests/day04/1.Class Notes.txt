@@ -1,0 +1,121 @@
+Playwright Day04
+
+    Topics:
+        - Handling Array of elements
+            - Not in the PDF 
+        - Playwright Assertions
+        - iframes
+        - Alerts
+
+    Next Class:
+        - Mouse Actions
+        - Web Tables
+        - Window pop-up Handlings
+        - SEP User Stories
+
+
+
+    Note: for Practice we will use the followin 
+          CT - Slef Enrollment Platform - qa.sep.tdtm.cydeo.com/taws
+                SEP_USERNAME = automation-user
+                SEP_PASSWORD = 123abc
+          Tes Data for Credit created       
+                docs.stripe.com/testing 
+  
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+
+    Playwright Assertions
+        - this will be the part of almost all the topics. So, as we move on, we will talk all the methods as we ahve been doing so. 
+
+
+        - Assertions are statements in our test code that check if a condition is true.
+        - Helps us to validate that the software behaves as expected.
+        - Assertions catch errors and bugs early in the development process
+        - Playwright provides built-in assertion methods to make tests more reliable:
+
+
+    - Assertion Methods - with values
+        Methods Name                                                Description
+        -----------------------------                               ------------------------------------------------
+        expect(value).toBe(expected)                                - Checks if value is strictly equal to expected
+        expect(value).toBeTruthy()                                  - Checks if value is truthy
+        expect(value).toBeFalsy()                                   - Checks if value is falsy
+        expect(value).toBeGreaterThan(number)                       - Checks if value is greater than number
+        expect(value).toBeGreaterThan(number)                       - Checks if value is greater than or equal to number
+        expect(value).toBeGreaterThanOrEqual(number)                - Checks if value is less than number
+        expect(value).toBeLessThan(number)                          - Checks if value is less than number
+        expect(value).toBeLessThanOrEqual(number)                   - Checks if value is less than or equal to number.
+        expect(value).toBeNull()                                    - Checks if value is null
+        expect(value).toContain(substring)                          - Checks if value contains substring
+        expect(value).toEqual(expected)                             - Checks if two values have the same structure and content, but not necessarily the same reference
+
+
+
+
+    - Assertion Methods - with Elements
+        Methods Name                                            Description
+        ------------------------------                          -------------------------------------------
+        expect(element).toBeVisible()                           - Verifies that the element is visible.
+        expect(element).toBeHidden()                            - Verifies that the element is hidden.
+        expect(element).toBeEnabled()                           - Verifies that the element is enabled.
+        expect(element).toBeDisabled()                          - Verifies that the element is disabled.
+        expect(element).toBeEmpty()                             - Verifies that the element is empty.
+        expect(element).toBeChecked()                           - Verifies that the element is checked. (checkbox, radio button)
+        expect(element).toContainText(text)                     - Verifies that the element contains the specified text.
+        expect(element).toHaveText(text)                        - Verifies that the element's text is equal to the specified text.
+        expect(element).toHaveAttribute(name, value)            - Verifies that the element has the specified attribute with the specified value.
+        expect(element).toHaveCSS(name, value)                  - Verifies that the element has the specified CSS property with the specified value
+
+            
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+
+    Handling Array of elements
+
+        - In Selenium, we were using the findElements() method wich was returning the List of WebELements 
+        - We have the similar approach in Playwright with method called: allMethods() which will return the Array Elements 
+            - For Ex: 
+                - in our practice web apge: https://loopcamp.vercel.app/, we ahve table of the links
+                - Should I locate one by one, or locate all of that into one data structure. 
+                - When you inspect those, it will show the "ul" - unordered list and "li" - list tags
+                - Copy the 'ul' element, but if you give it to perplexity, it will find the unique for 'ul'
+                - We can ask perplexity to make it for the "li" under "ul" html tags. 
+                - Then take it and check if it finding on the DOM what you are looking for. 
+
+        - Not instead of locater we ill sue another method because locator will return one and if there multiple match, it will give the first match
+            - page.locator("ul.list-group.list-group-flush li"); // this will retiurn ONLY 1 and the 1st matching one 
+
+        - But will use if it with .all() method trying to get the all mathces 
+            - await page.locator("//ul[@class='list-group list-group-flush']/li").all();
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+
+    iframes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
