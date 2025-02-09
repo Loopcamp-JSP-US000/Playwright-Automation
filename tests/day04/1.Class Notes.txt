@@ -8,7 +8,8 @@ Playwright Day04
         - Alerts
 
     Next Class:
-        - Mouse Actions
+        - Mouse Actions 
+            - In Selenium - Actions class
         - Web Tables
         - Window pop-up Handlings
         - SEP User Stories
@@ -97,6 +98,90 @@ New Topic
 
     iframes
 
+        - HTML elements that embed another HTML document within the current document.
+        - Allows to display content from a different source or domain.
+        - The iframes isolate the content from the main page, they have their own context.
+        - The iframes isolate the content from the main page, they have their own context.
+
+        - It is mostly beneficial to use the 3rd party apps becaus eof various reaosns. 
+            Ex: 
+                Let say you are building eCommerce app, need a payment function. 
+                Creating payment process function from scratch will required a lot of security, license and regulations and etc. For example: Stripe
+                Instead, complanies use the already existing 3rd aprty apps with the help of iFrames and integrate it into the app. 
+
+        - In Selenium, we had to switch back and forth like going into and going back to defautl or the one direct parent. 
+        - But Playwright, it is auto switching. Even for Alerts as well. 
+
+
+
+
+        Handlings iframes in Playwright
+
+            - The frameLocator() method of the page object is used for locating the iframes.
+            - The iframes can be located by using the following locators:
+                    - ID
+                    - Name
+                    - CSS
+                    - XPath
+
+
+                Ex
+                    // Locate iFrame by ID
+                    const iframel = page.frameLocator ('#frameID');
+
+                    // Locate iFrame by name
+                    const iframe2 = page.frameLocator ('iframe [name="myFrame"] ');
+
+                    // Locate iFrame using CSS selector
+                    const frame = page.frameLocator('iframe, classname');
+
+                    // Locate iFrame using XPath
+                    const iframe4 = page.frameLocator('//iframe [@class="value"] ');
+
+    Note: https://loopcamp.vercel.app/frames.html
+        - After break, we will sue this practice url for Iframe tasks 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+BREAK
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+
+    Practice of the iFrame Task 
+
+        - General note that, when you locate the element with teh attribute that has the value ending with numbers, avoid using it
+        - Most likely is a dynamic element chaning the value. 
+
+
+        - In oder to automate the iFrames, we need to locate it first. 
+        - Since the element is from a different source, we will use different method to locate not hte locator();
+            - let textIFrame = page.frameLocator("//iframe[@class='tox-edit-area__iframe']");
+
+        - Now, I need to locate the element from this iFrame
+            - let contentArea = textIFrame.locator("//body[@class='mce-content-body ']")
+
+        - Then lets imagine that input field is the card number and we do not want to revealt it. 
+            - We can again put it in the env variable 
+
+        - Now, lets say I want to locate an element which is not inside of the iframe, then I just od it with directly locator()
+            - let headerTextElem = page.locator("//h3[text()='An iFrame containing the TinyMCE WYSIWYG Editor']"); 
+            - await expect(headerTextElem).toHaveText('An iFrame containing the TinyMCE WYSIWYG Editor');
+
+
+        NOTE: if you ahve nexted iFrames, you can lcoate it to be unique one that you want to navigate and go from there. ???
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+    
+    Report
+
+        - We can run from package.json, for the report command to see the report 
+        - It will open the report on the browser for the last executed test 
+        - This is the default report of the Playwright 
+        - But diring the project implementation from the upcoming class, we will use the Cucumber Report 
+        - There are some others like ALLURE etc. which requires additional configurations 
+            - in playwright.config.js for the "reporter" instead of "html", we pass "ALLURE" + need to install ALLURE package
+            - It is doable but not needed for us right now. 
 
 
 
