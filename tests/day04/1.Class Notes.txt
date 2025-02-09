@@ -16,7 +16,7 @@ Playwright Day04
 
 
 
-    Note: for Practice we will use the followin 
+    Note: for Practice we will use the following 
           CT - Slef Enrollment Platform - qa.sep.tdtm.cydeo.com/taws
                 SEP_USERNAME = automation-user
                 SEP_PASSWORD = 123abc
