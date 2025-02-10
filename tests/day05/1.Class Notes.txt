@@ -1,0 +1,294 @@
+Playwright Day05:
+
+	Topics
+		- Alerts
+		- Mouse Actions
+		- Web Tables
+		- SEP User Stories
+
+
+
+	Next Class (Wednesday):
+		- Jenkins
+
+
+	Next Class (Satruday):
+		- Multi-window Handlings
+		- File Upload & Download
+		- More Fixtures (context, browser)
+		- More Perplexity COllections 
+
+
+	Next Class (Wednesday):
+		- 3 hours Recording class -- > BDD Framework 
+			- this will inlcude the Git Workflow instructions / Git Strategy as well
+		- After this you will have 1 week to complete 
+
+
+
+
+	Note: Practice / Assignemnt
+		1. Complete the Jenkins Set Up Instruction Video(Before next Class)
+			- Suggestion: use your first namefor both Username and password - since it will be in your computer, no one will be able to access. 
+			- We will not be using the Jenkins from EC2, we will use it locally. The only difference is the URL will be difference  
+
+		2. Complete the manual testing of SEP user stores (Before next next Class)
+
+
+		3.1. Download the features zip folder from code channel on discord 
+		3.2. Unzip the features zip folder to get feature folder
+		3.3. Put the unzipped feater folder in the VS Code Projects folder
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Recap
+
+	- From PDF
+		- iFrames
+		- Assertions
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+
+		JavaScript Alerts
+
+			- Alerts are browser 'dialogs' that interrupt user interaction.
+				-'dialog' is another additional library to deal with these kind od alerts
+			- Common types include alerts, confirmation dialogs, and prompts.
+			- There are three types of alers:
+					- alert: 	Simple message with an OK button
+					- confirm: 	Message with OK and Cancel buttons
+					- prompt: 	Message with a text input, OK, and Cancel buttons	
+
+
+
+
+
+		Handlings alerts in Playwright
+
+			- The on() method of the page object is used for handling alerts
+			- The on() method method needs to be called before the alert is triggered.
+					- accept(): 		accepts the dialog
+					- dismiss(): 		dismisses the dialog
+					- accept(input):	provides input and accepts the dialog
+
+			- In Selenium, the alert happens first and then we handle,. In playwright, we use the .on() method beforehand for possible alerts
+
+				Ex:
+					In Selenium
+						Test:
+							Step 1
+							Step 2
+							Step 3 - Alert happened in here and we handle in here by switching to alert
+							Step 4
+							Step 5
+
+
+
+					In Playwrihgt
+						Test: (we trun the allert mode on in the step as the FIRST CODE - no matter where in step alert happens, this will handle it)
+							Step 1
+							Step 2
+							Step 3 - Alert happenes in here 
+							Step 4
+							Step 5
+
+
+
+			Code:
+					page. on ('dialog', async dialog => {  // "dialog" -- this has to be named like this but "(dialog)" can be any value. 
+						await dialog-accept();
+					});
+
+					page. on( 'dialog', async (dialog) => { // Also, (dialog) can be in paranthesis as well
+						await dialog-dismiss();
+					});
+
+					page. on( 'dialog', async dialog => {
+						await dialog.accept( 'Inputs');
+					}) ;
+
+
+		- Lets go to our practice platform and you will see "JavaScript Alerts"
+			- We have those 3 type of alerts: 
+				- 1st "JS Basic Alert" - basic alert which has just to accept "OK" options 
+						- if there is one option to move forward in Playwrgith it is handled automatically - you wont see this since playwright will handle it 
+						- but in Selenium, we had to switch into the Alert and accept 
+
+						- click on the the 1st button 
+						- click ok
+						- See the success message under "Result"
+
+
+				- 2nd "JS Confirm Alert" - this has 2 options - "Cancel" meaning decline and "OK" meaning accept 
+						- this one Playwright has to handle 
+
+
+				- 3rd "JS Promt Alert" - this has 3 options - "Cancel" meaning decline and "OK" meaning accept and "text input area" 
+						- this one Playwright has to handle 
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Extra: 
+
+		TimeOuts
+			- There is a config you cna do to increase and change the time out seconds
+			- We will learn it with the Project implementaion 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+BREAK
+	- During breakd do these 
+			3.1. Download the features zip folder from code channel on discord 
+			3.2. Unzip the features zip folder to get feature folder
+			3.3. Put the unzipped feater folder in the VS COde Projects folder
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 	
+
+		Mouse Actions
+			- In Selenium, we use Actions class
+			- In javascript, we do all the  mouse actions through "page" fixture directly.  
+
+			- Mouse actions simulate user interactions with the mouse.
+			- Essential for testing UI components that rely on mouse interactions.
+			- Playwright provides a robust API to handle various mouse actions
+			- Common actions includes Click, Double Click, Hover, Drag and Drop, Right Click, and Scrolling.
+
+
+
+
+		Common Mouse Actions/Methods
+
+			Methods Name 										Description
+			--------------------------							--------------------------------------
+			page.click(selector) 								- Simulates a mouse click on the element matched by the selector.
+			page.click(selector, { button: 'right' }) 			- Simulates a right-click on the element matched by the selector.
+			page.hover(selector) 								- Simulates a mouse hover over the element matched by the selector.
+																	- If there multiple elements to hover over, we do arrays method to locate all elements
+																	- then loop through (syntax a little different) -- > page.eachElem(); 
+			page.dragAndDrop(source, target) 					- Simulates dragging an element from the source selector to the target selector.
+
+			page.dblclick(selector) 							- Simulates a double-click on the element matched by the selector.
+			page.mouse.wheel(deltaX, deltaY) 					- Simulates mouse wheel scrolling by the specified delta values
+
+
+
+		Practice: lets do the practice on our practice apge : https://loopcamp.vercel.app/index.html
+			- click: 
+				- by default it will do the "left click"
+				- In some case we need that element which I want to click for some other needs. Then we locate and click on it
+				- I would not need it, I just can click on it with mouse actions. The disadvantage is we cannot re-use that element if needed. 
+
+			- scrolling
+				- In selenium, we can us JavaScript executor and provide the X (horizantol) and Y(vertical)
+				- In Playwright, we got the similar approach. Sometime, on the webpage, we have only Y(vertical scroll) or (X)Horizontal scroll
+					- those case, whatever is not avaiblable, we give 0 for that
+
+				- In playwright, you can still click on the element if it is not in the view. Playwright has it in the background 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 
+
+		Web Tables
+
+			- HTML elements for displaying data in rows and columns.
+
+			- HTML Table Structure:
+					- Table tag: 	<table>
+					- Header: 		<thead>, <th>			
+															<th>	- > for the column
+					- Body: 		<tbody>, <tr>, <td>		
+															<tr>	- > for the row 
+															<td>	- > for the cell
+					- Footer: 		<tfoot>
+
+			- Extracting Data from Tables:
+					- Getting all rows: table.locator(‘tr’)
+					- Getting cells in a row: row.locator(‘
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+BREAK
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Practice: Web Tables
+
+		When dealing with data tables the tag "table" is going to be helpfull to show where it starts in HTML
+			- In Playwright, dealing with it is a lot easier. 
+			- We locate the <table> tag and copy it and give it to perlixity 
+			- Once you paste it there, it may not show the whole HTML, it may accept it as a text file. 
+			- Get the element that gives you the whole table. 
+				EX:
+					let table = page.locator("//table[@class='SampleTable']");
+
+			- Now, we can use that element to get all the rows giving the child element <tr> tag
+				EX:
+					let allRows = await table.locator("//tr").all();
+
+			- Now, lets get all the columns 
+				EX:
+					let allColumns = await table.locator("//th").all();
+
+			- Now, lets get all the cells 
+				EX:
+					let allCells = await table.locator("/td").all();
+
+			- Since, we will need those variables in other test();, we can move the declarion outside of the test(); 
+			- And we can initialize in either beforeEachTest(); or beforeAll(); finction. 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Extra: 
+		- Do not forget to remove all your waits. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+New Topic 	
+
+		SEP User Stories
+			- features.zip
+
+
+			- Download the features zip folder from code channel on discord 
+			- Unzip the features zip folder to get feature folder
+			- Put the unzipped feater folder in the VS Code Projects folder
+			- Open that project in the VSC (you can drop and drop in VSC)
+
+			- On that 1 week automation framework part which is in recorded class, you will will automate these stories
+			- There are total 13 User Stories. We may do only 1-2 of them. 
+				- StartAndRefundDates.feature
+					- EX
+						Background:
+							Given user is already on the self enrollment page
+
+						Scenario: Program start date and refund date are displayed
+							Given user is already on the self enrollment page
+							Then program start date is displayed 
+							Then program refnd date is displayed
+
+
+						Scenario: Program start date and refund date are correct
+							Given user is already on the self enrollment page
+							Then the displated program start date is correct
+							Then the displated program refund date is correct
+
+
+						Note: dont worry about the test date, we will provide it in JSON file. For teh CC number you can get it from the Stripe URL
+
+
+			- For now, just open and manually go over them on the applicaiton by following the steps from the feature file to get familiarized 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Note
+	
+	Make sure you watch the Jenkins video and set it up.
+
+
