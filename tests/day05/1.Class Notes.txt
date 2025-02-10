@@ -290,5 +290,6 @@ New Topic
 Note
 	
 	Make sure you watch the Jenkins video and set it up.
+	Next class will be all about Jenkins 
 
 
