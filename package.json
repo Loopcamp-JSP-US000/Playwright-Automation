@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
+    "tests": "npx playwright test",
     "test-specific": "npx playwright test --grep playwrightIntro.spec.js",
     "test-tag": "npx playwright test --grep @google01",
     "test-tag2": "npx playwright test --grep @test01",

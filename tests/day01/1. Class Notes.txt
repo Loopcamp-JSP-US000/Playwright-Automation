@@ -1,0 +1,657 @@
+Playwright Day 01:
+
+Topics:
+    Remaining JavaScript topics 
+        - Error Handling     
+        - Promises
+        - Async & Wait
+
+    Playwright
+        - Intro
+        - Environmenr Setup
+        - @playwright/test package
+        - Fixtures
+        - Working with browsers
+
+
+
+Next Class
+    - AI for Automation productivity
+    - Page Object Methods
+    - Locator Object Methods
+    - Hooks Funktions
+
+Extra: 
+    - Playwright supports only modernized browsers (Chrome, Safari, Firefox)
+    - Does not support the old browsers like "Internet Explorer", "Opera" and etc. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+New Topic
+    Exceptions/Error
+
+        - In Java Exception and Errors (not code related) are differents things
+        - But in Javascript they are same 
+        - Again, in general it is an unwanted or unexpected event (Something went wrong)
+        - Exceptions/error in Javascript is RUNTIME errors that disrupt the normal flow of code execution. Never will hapen during COMPILE time
+            - Because Javascript (like Python), it is interpreted language when it converts the source code to byte code. 
+            - And we know that interpreter coverts teh source code into byte code during the RUNTIME. 
+            - So, all issues in Javascripts are RUNTIME errors 
+
+        - Another thing is in Javascript there are less Error types compare to Java
+
+            Errors
+                `--- EvalError
+                '--- InternalError
+                '--- ReferenceError
+                '--- SyntaxError
+                '--- TypeError
+                '--- URIError
+
+
+        - 1) try-catch
+            -Similar to Java, in Javascript we also use try-catch block to handle the Exceptions. 
+
+            Ex:
+                try {
+                    // code that may throw an error
+                } catch () {
+                    // code to handle the error 
+                }
+
+            - We can have the optional "finally" block in Javascript as well
+                - An optional block that can be given after the last catch block
+                - Always executed after try & catch blocks whether an exception/error occurs or not
+
+                Ex:
+                    try {
+                        // code that may throw an error
+                    } catch () {
+                        // code to handle the error 
+                    } finally {
+                        // code that will allway run 
+                    }
+
+        - 2) Note: there is no "throws" keyword like in java to ignor/by pass the exception in teh method signature. 
+
+
+
+
+        - 3) "throw" keyword
+                - this is the one we also ahd in Java like using manually causing to thwo an exception. 
+                - Ex:
+                        throw new Error ("Error Message"); 
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+New Topic
+
+    Promises  / Async & Await 
+    
+
+    Promises
+
+        - In general, when you hear someone saying promises, does it mean that it is %100 guaranteed? (It depends on who says it :) - Ok joke a side.)
+        - It is still %50- %50
+        - Promises in Javasript, it refers to the future value - > it is either a value or error
+
+
+        - To understand Promises we need to understand ASYNCHRONOUS PROGRAMMING CONCEPT because PROMISES are very abstract concept [jump to next New Topic]
+        - Promises in JavaScript can Help handle async operations
+        - Promises are objects that represent the eventual completion (or failure) of an async operation and its resulting value
+        - Promises Wait for operations to finish
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+New Topic
+
+    Async & Await
+
+        Asynchronous Functions
+            - Functions that operate asynchronously
+            - Allows the program to run other code while waiting for the time-consuming operations to complete
+            - Asynchronous functions don't block the execution of the rest of the code
+            - Asynchronous functions can be achieved using the 'async' and 'await' keywords
+
+            - But in java we had Sybcgronous (Vector vs ArrayList) - meaning Thread Safe - one thread at a time. 
+            - To better understand, lets look the page 23 in slide
+                - Improves performance by not blocking the execution of other code
+                - Provides a better user experience by Improving application responsiveness
+                - Ex:
+                    If you have 100 test cases - each takign 2 secs
+                    YOu want to to run it in parallel exection with 4 browser. 
+                    How many secs it would take to complete? 100 * 2 / 4 - > 50secs
+
+
+
+        Synchronous vs Asynchronous
+            Synchronous
+                - Advantage:    is thread-safe
+                - Disadvange:   is slow
+
+
+            Asynchronous
+                - Advantage:    fast since there is no thread-safe
+                - Disadvantage: does not have the thread-save. There is another one and that is why we need Promises 
+                                - Lets say that your test2 needs some information from test1 meaning it depends on the value from test1. 
+                                  And we can not take the value from test1 before it finishes. 
+                                  That is where the promises come into play and gives what the test2 expects even before the test1 completes the execution. 
+                                  But test2 still will be executed until the point where it actually needs the value from test1
+                                  And once test2 reaches the point where it needs it, that is the point where test2 "AWAITS" for the test1 promises to be resolved
+                                  Once the promise is resolved, then test2 will take the value and continue its execution 
+
+                                - In short it basically says the hey test2 contunue your execution until the point you actually need the value and test1 promises to provide it. If the promises is not kept and value was nto given and insted an error was given, that error will be passed to test2. 
+
+
+
+
+    Promises  [continue]
+
+        - Every single promises in JavaScript has three states:
+
+            - Pending:      Initial state, waiting. the moment the promises made                - ? 
+            - Fulfilled:    Operation completed successfully                                    - Value
+            - Rejected:     Operation failed                                                    - Errr
+
+
+
+
+
+    Explanation of flow
+
+                Task01
+                    Makes the promise to return a value 
+                    step 1
+                    step 2
+                    step 3
+                    step 4
+                    return the promised value - or error
+
+
+
+                Task02 (has the promise of Task01) - so execution starts and continues until the point where the value is needed 
+                    step 1
+                    step 2
+                    step 3 (this is the step where the actual value from Task01 is needed) - AWAIT for PROMISE to resolved (either VALUE or ERROR)
+                    step 4
+
+
+
+            Ex:
+                Politicians promises
+                    - so you can keep voiting  :) 
+
+
+
+    Handling Promises
+
+        As the pomises may return either VALUE or ERROR, how shoudl be handle the case with ERROR
+            - We do not need to hand it with teh try-catch as it PROMISEs has built-in methods that can handle Promises which errors out
+
+            - A Promises is handled by using then() and catch() methods of the promise objects
+
+                    - then():       Runs if promise is fulfilled
+                    - catch():      Runs if promise is rejected
+                    - finally():    Optional to call and always runs whether the promise is fulfilled or rejected
+
+
+
+
+
+    ASYNC Keyword
+
+        - As for the Playwright automation, we need to know how to deal with the functions that have promises 
+            - Usually the functions that have promise in it, they are called async functions. 
+            - In other words, every time, the functions uses "async" keyword, that means it returns promise
+
+            - ASYNC Keyword is used to declare functions as asynchronous
+            - The function returns a promise, even if it doesn't explicitly return one
+
+
+
+
+    AWAIT
+
+        - NOTE:
+            - Sometimes, the promises may take some additional time in order to be resolved 
+            - At this time, if we want to give some time out, for the promises to be resolved, that is when we use the AWAIT
+
+            - Used inside the async function to wait for a promise
+            - Pauses the function until the promise is resolved or rejected
+
+
+
+    EXAMPLE EXPLANATION of all together
+        - See the alst page of the Slide
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+New Topic
+
+    Playwright-Automation
+
+        - If you guys did this by watchign the short video, you do not need to do this. 
+        - Note: for myself 
+            -- > if students still have an issue, make a zip.file by right clicking on that project in the directory
+            -- > then share that zip.file
+            -- > So, they can download
+            -- > then unzip (Mac-> double click, win-> extract)
+            -- > now, you can move the project where you want to save it. (normally under the VSCPorject)
+            -- > now drag and drop it into VSC
+
+        - Now since everyone has it ready, lets go back to PDF 
+
+    Thing we will talk about
+        - Introduction to Playwright
+        - Environment Setup
+        - @playwright/test package
+        - Fixtures
+        - Working with browsers 
+        - Interacting with Web-Elements
+
+
+    Introduction to Playwright
+        - It another automation tool for automating web browsers
+        - Developed by Microsoft - it is public since late 2020 - stable version was published even later - so relativel a new tool in the market. 
+        - Provides support for multiple programming languages
+            - For example - selenium can work with Java, Pyhon, Ruby and etc. and Playwright can support those as well
+            - Tool like Cypress and Proctractor (this was popular before Cypress - it is outdated now)  are ONLY working with JavaScript 
+        - Supports chromium, firefox, and webKit browsers
+        - It is a tool that is desinged for E2E testing. 
+
+        - Advantages comparing to Selenium, Cypress. Why to choose Playwright?
+            - More Reliable and fast browser automation
+            - Cross-browser testing
+            - Auto-waiting functionality - like in Selenium, we had ExplicitWait, ImplicitWait, No need scrolling, Switching between tabs a lot easier
+            - Easier setup and maintenance
+            - Parallel Testing - In selenium we had to use Selenium Grid but it is a lot easier to set up it in Playwright. Basically configuration is a lot easier by jsut setting true/false
+            - Also the syntax is more user friendly as well
+            - QTP < Selenium < Playwright 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    To Set Up Playwright Porject [we already did that]
+        1. Create a new folder for VS Code project
+        2. Open the folder in VS Code
+        3. Open VS Code terminal
+        4. Give the "npm init playwright@latest" command
+        5. When asked Okay to proceed? type y
+        6. Select JavaScript for the language
+        7. Select the default folder for end-to-end tests by simply pressing the Enter key
+        8. Select false for adding GitHub Actions workflow by simply pressing the Enter key
+        9. Select true for installing playwright browsers by simply pressing the Enter key
+        10. Wait for the installations to be completed
+        - When you install, it comes with the "example.js" file which has the 2 tests. Lets use the following comman to run those tests in terminal in VSC
+        11. Open the terminal and give the "npx playwright test" command (By default it runs the tests in headless mode )
+        - it took 2.2 secs to run all those 2 tests - not 6 because we commented out the other two browsers 
+            --> Running 2 tests using 1 worker --- > in the console you may see this which means that the automation run 2 tests in 1 browser  
+        12. Open the terminal and and give the "npx playwright test –-headed" command
+        - By default, it is possible that the config is set to run it headless, but the above command we can run it with headed. When you copy waste, please remove and put -- again. 
+ 
+        - REPORT - now since you run the playwright, it will create teh folder called "playwright-report"
+            - It has the index.html file  which is the report of the result. 
+            - To see the report result we can run " npx playwright show-report"
+            - Once you run it will open the report on your default browser
+
+        NOTE:
+            - You can save all these command as script and use it later  
+            - "package.json" - file --- > this can be treated as "CukesRunner" file from Selenium as we will have some scripts to run test with different configs
+                - in this file , there is a section called "script":{}
+                - since playwright requires different scripts for each different tasks, we can configure them here. 
+                - let's create one for the "npx playwright test"
+                    - Inside the script object add: "test": "npx playwright test" -- > once this is added, there will be a run button. Now, next time, you can just click on RUN to run. 
+                                                                                  -- > the RUN button is coming from the extension we added -- >  NPM Run extension 
+                                                                                  -- > If the Run button is not visible, may close and reopen the VSC
+
+                - let's create another one for report "npx playwright show-report"
+                    - Inside the script object add: "report": "npx playwright show-report" -- > once this is added, there will be a run button. Now, click on it to run - will show the last result 
+                                                                                           -- > if oyu get an issue, on the console click on "delete" icon to close the all history and console
+                                                                                           -- > then try to run again. 
+
+            - "playwright.config.js" - file is the the GLOBAL CONFIG file, where you can change the paralel execution, what browsers and etc.  
+  
+                - File Name: playwright.config.js
+
+                                - Open this file and you will see some import, some documentation comment
+                                - Also, there is section called, export as well
+                                    - testDir           --- > this is test directory by default is './tests'
+                                    - fullyParallel     --- > not is it true meaning when it executes the .test folder, it di doing it in fully paralel
+                                                              for learnign purpose, I will change it to 'false'
+                                                              - Now, just testing and learning purpose, make the fullyParallel: false , and go to "package.json" and click that run button 
+                                    - forbidOnly        --- > this is related to CI/CD
+                                    - retries           --- > it si defaulting it 2 times to retry
+                                    - workers           --- > It means how many instances of browser you would like to select. We will change it to be 1 meaning it will open only 1 browser. 
+                                                                - comment out --- > workers: process.env.CI ? 1 : undefined,
+                                                                - add ----------- > workers: 1,
+                                                                - Now, go to "package.json" and click that run button to see.
+                                    - reporter          --- > as the name suggests. Report in html
+                                    - use               --- > we gave npx command to not run in headles but we can set it up in hear as well
+                                                              add following inside {} after 'trace....'  --- > headless: false
+                                                              You guys  already know this that if it is headless, the speed is faster.
+                                                              - Now, just testing and learning purpose, make the headless: false , and go to "package.json" and click that run button
+                                    - projects          --- > In here you will see those 3 browser
+                                                              For learning purpose, we do not need to run each test on different browsers. 
+                                                              I will keep only chromium and comment out the other with multi-line comment  
+
+            - Note: to myself
+                - If students have issue on running
+                        - copy and share whole - > playwright.config.js
+                        - copy and share whole - > package.json
+                        - note - if still getting issue, most like did not install teh extensions and did not do the set up correctly. Please, rewatch. 
+                        - Or right cliek and make Zip folder of the project and share again. 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Recommended Naming Convention
+        - For folder names: lowercase
+
+        - For test files:   lowerCamelCase or Kebab-case
+            - lowerCamelCase:   loginTest.spec.js, loginTest.test.js
+            - Kebab-case:       login-test.spec.js, login-test.test.js
+
+            - NOTE: the extensions for the file is one fo the followings
+                - fileName.spect.js ---> spec is more prefferable  - > example.spec.js
+                - fileName.test.js
+
+        - For page object files:    UpperCamelCase
+            - UpperCamelCase/PascalCase:   LoginPage.js
+
+            - NOTE: soon we will talk about BDD framework where we will do POM (Page Object Model) implementation
+
+
+
+        -example.spec.js --- > lets look at this file
+            - import { test, expect } from '@playwright/test';
+                    -- > this is for importing. 
+                    -- > You may also see this instead  -- > const {test, expect} = require ("@playwrite/test"); --> which is same thing where "require" is used for importing
+                                                        -- > basically improting "test" and "expect" from @playwright/test -- > library which is the one of the packages of playwright  
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    '@playwright/test' - playwright package
+        - it has the 'test' function
+        - it has the 'expect' object method  
+
+
+        - Designed specifically for end-to-end testing
+        - Uses a specialized test runner and framework
+            - In Selnium we used JUnit or  TestNG, to run 
+            - But in Playwright, it has itw on "test runner" and "framework". We do not need any additional libraries 
+        - Comes with its own built-in reporters
+            - Selenium we used extended reports 
+        - Introduces the concept of fixtures
+            - "fixtures" are some kind of varibales that we can use in our automation 
+            - In Selenium, we were using "Driver driver"
+            - But Playwright, we have something called "page", "browser"
+            - Also, it has something for API testing called "request", "baseURL"
+        - Has its own global configurations
+            - playwright.config.js file 
+        - It includes built-in assertions
+            - in example.spec.js file you can see the expect is imported to do the assertions 
+                - const {test, expect} = require ("@playwrite/test");
+
+
+
+    End to End Testing
+        - Testing the entire flow of an application from start to finish
+        - Ensures all integrated parts work together as expected
+        - The end-to-end testing in Playwright mainly focuses on UI
+        - Verifies the application's user interface and workflows from the user's perspective
+        - Helps identify and resolve problems before they affect users
+
+
+
+
+
+    Fixtures
+        - Playwright uses fixtures to provide reusable, isolated test environments
+        - Simplifies the test setup and teardown process, making the tests more reliable and maintainable
+        - Common 7 fixtures(fuxtureName) includes:
+                - browser   - specifically for UI we will learn this
+                                - Chrome, Safari, Firefox
+                - context   - specifically for UI we will learn this
+                                - like how many instances of the same browser running, specifically different windows not tabs- parallel testing
+                - page      - specifically for UI we will learn this
+                                - this one is referring to the tabs on each window 
+                - viewport
+                - browserName
+                - request
+                - baseURL
+
+
+
+
+
+
+    Test Function Declaration 
+        - To create the test scripts for "test cases" we need this built-in "test()" function
+
+        - The test() function is the core building block of Playwright tests
+
+        - It takes two arguments - a string description and an async callback function. You are required to use two arguments
+            - description:                  Describes what the test is checking
+            - async callback function:      Takes fixture(s) and contains the codes of the test
+
+
+        - Each test function runs in isolation, Playwright creates a new browser context for each test
+            - Ex:
+                    import {test} from '@playwright/test';
+
+                    test('test name', async ({ fixtureName }) =>
+                        // Test Codes
+                    }) ;
+
+                     
+
+
+
+    The "page" fixture
+        - For upcoming couple classes we will mostly use "page" fixture because our each test case will be on a single tab on browser
+
+        - A powerful tool for web automation and testing.
+        - An isolated page instance for each test
+        - Provides a clean, consistent starting point for each test
+        - Automatically created and destroyed 
+            - meaning setup and teardown happens automatically verses how we set it up in Selenium with Hooks.class. "page" fixtures does it automatically
+            - it will follow the global configuration - playwright.config.js --- > like how many browsers it will open, what browser it will open. 
+        - Provides methods for navigation, interaction, and assertions 
+        
+            - Ex:                                 ,- > page is the fixtureName we are using in here.
+                                                 /
+                    test('test name', async ({ page }) =>
+                        // Test Codes
+                    }) ;
+
+
+
+
+
+    Common Methods of page Object
+
+        - Some of the reusable methods coming from "page" fixture
+            - NAME                                  -DESCRIPTION
+            - goto(url);                            Navigate the browser to a specified URL
+            - title();                              Returns the title of the current page as a string
+            - url();                                Returns the current URL of the page as a string
+            - setViewportSize({w, l});              Sets the size of the browser viewport to specified width and height values
+            - setDefaultTimeout(milliseconds);      Sets the default maximum time (in milliseconds) the test on the page can take before timing out
+            - page.locator(selector);               Creates a locator for the given selector, which can be used to perform actions like click, type
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Test Function creation for Test Cases
+
+    - Under "test" package create directory "day01"
+        - create file "playwrightIntro.spec.js"
+            - Note: - if you give a name as "playwrightIntro.js" -- > it will be JavaScript file not test file. 
+                    - so, has to be either "spec.js" or "test.js"
+
+            Task:
+                - Open Browser
+                - Navigate to google.com
+                - Search for something (Playwright Automation)
+                - //Verify that is what I searched
+                - Close Browser
+
+            1. import
+                - we need to use the "test" function from @playwright/test package - > so we need to import
+                - we also need to imort "expect" for assertion
+
+                    const {test} = require('@playwright/test');  
+                    - pay attension for the warning with ... 3 dots which is added with ES module (which was added later in Playwright)
+                        import {test} from '@playwright/test';
+
+            2. test (arg1-string, arg2-async( {fixtureName} ) ) funtion 
+                
+            3. test (arg1-string, arg2-async( {fixtureName} ) => { // automation script body will be written in here }  );
+
+                    - async () --- > in Playwright when you give the "fxture" as an argument, we need to pass it as SET becayse it only accept UNIQUE, that is why we use {}
+                               --- > async( {page} )
+                    - page --- > it is like a driver for a web page
+
+            4. go to pacjage.json and click on run button from the script {}
+                    - this will run all the test files undet "test" package
+                    - we can add another script for a speicific test in "package.json" file 
+                        - "test-specific": "npx playwright test --grep fileName.spec.js",
+
+            5. lets add another test() in playwrightIntro.spec.js file and run it from package.json file 
+            6. Now, lets in that same file, I want to runt the specific test(); then we need to provide the @tag
+                - since this tags needs to be UNIQUE, we can provide the Jira Ticket ID as a tag
+                    Ex:
+                        test ("Simple YouTube Search Test @youtube", async({ page }) => {
+                            ...
+                        });
+
+            7. Now, lets add another script, for specific tag in "package.json" file 
+                - "test-tag": "npx playwright test --grep @tagName",
+
+
+            8. IMPORTANT NOTE: 
+                - As a programmer it is not efficient to go back and forth between my test file and "package.json" file to run it. 
+                - I want to be able to click on the run in the same test file 
+                    - If you use IntelliJ Untimate which supports node.js and therefore it gives you the run option in the file
+                    - But in VSC, we need an extension
+                - If you remember we installed extension called "Playwright Test for VSC".  
+                    - If you go Uninstall, and try to go to your test file, you will not see the run button next to each test(); The only way to run, would be from the scipts or commands
+                    - If it is the first time installing "Playwright Test for VSC" extension
+                        - Once you find it, instead of clicking "Install", you can click on the "Settings" button and select "Install Specific Version" and select "1.0.22" - and click "refresh"
+                    - Most likely we installed the "latest version" of it, which somehow has the problem following the entire "playwright.config.js" file 
+                        - If you go in your test file and click the run button now, it does NOT open the browser but we have it in the config file as true. 
+                    - Therefore, we will need to choose the specific version  
+                        - Now, go to the extension section
+                        - Find "Playwright Test for VSC" extenstion
+                        - From "Uninstall" dropdown
+                        - Select "Install Specific Version"
+                        - Then select "1.0.22" version
+                - Now, on the left navigation bar, there is icon called "Testing" - click on it
+                    - At the top, next to "Test Explorer", there is "refresh" icon which will do the reload - click on it
+                - Now, navigate back to the test file, and the new version of the run button next to the each test, should be functional
+                    - Or you can go to "Testing" tab, 
+                        - Under "tests", you will see the files to run the whole folder, or expand to run specific whole file, or even expand file to run specific test()
+
+            9. If I wnat to chage the Browser Window size 
+                - Go to "playright.config.js"
+                - find "projects { }," 
+                - update it to look like:
+                    {
+                      name: 'chromium',
+                      use: { ...devices['Desktop Chrome'],
+                        viewport: { width: 1280, height: 800 },
+                       },
+                    },
+                - You can find you display setting from your comp
+
+
+            10. NOTE: As you paid attension, we spent a lot of time on this single test
+                      But in the upcoming class, we will spent like 3 mins max because we will be creating mutiple AI agents  
+                        - One AI agent will locate the element 
+                        - One AI agent will create the empty test () function
+                        - Another agent will optimize the test() and so on... to make it more productive
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Locators
+
+        - Powerful tools for element interaction and assertion.
+        - An object representing a way to find element(s) on the page
+        - Provides a robust and reliable way to interact with page elements
+        - Locator Selectors:
+            - CSS selectors:    page.locator('button.primary')
+            - XPath:            page.locator('//button[contains(text(), "Submit")]')
+            - Text content:     page.locator('text=Submit')
+            - TestID:           page.locator('data-testid=submit-button')
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Common Methods of Locator Object
+
+
+        Methods-Actions     Methods-Retrieval       Methods - State
+        ---------------     -----------------       ---------------
+        click()             textContent()           isVisible()
+        fill()              innerText()             isEnabled()
+        type()              inputValue()            isChecked()
+        press()             getAttribute()          isDisabled()
+        check()
+        uncheck()
+        selectOption()
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+NOTE:
+    For myself about github
+        1. GitHub Account
+        2. Profile Icon
+                - Need to have an organization (this is where you make it specific for each batch)
+                - Settings
+                - Organizations
+                - New Organization
+                    - Give a name: Loopcamp-JSP-US000
+                    - ....
+        3. Once you are on that organization, lick on Repositories 
+        4. Give a name: Playwright-Automation
+        5. Create Repository
+            - copy the REPOSITORY link: https://github.com/Loopcamp-JSP-US000/Playwright-Automation
+        6. On VSC, click on Git icon on the left side 
+        7. Click on "Initialize Repository"
+        8. Hover "Changes"
+        9. Click on "+"
+        10. Give a message in the commit box 
+        11. Click "Commit"
+        12. On "Source Control" section click on ... 3 dots
+        13. Remote
+        14. Add Remote
+        15. Past the ilnk on the top search bax area + Enter
+        16. type there again "origin" + Enter
+        17. Click "Publish Branch"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
